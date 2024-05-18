@@ -13,9 +13,9 @@ def capture_screen_area(left, top, width, height):
 def main(index):
     # Contoh pemanggilan fungsi capture_screen_area dengan koordinat (left, top) dan ukuran (width, height) yang diinginkan
     left = 0
-    top = 100
-    width = 66
-    height = 800
+    top = 160
+    width = 76
+    height = 600
 
     screenshot = capture_screen_area(left, top, width, height)
     img_h, img_w = screenshot.size
