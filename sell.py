@@ -12,7 +12,7 @@ def main(index):
     # Contoh pemanggilan fungsi capture_screen_area dengan koordinat (left, top) dan ukuran (width, height) yang diinginkan
     left = 0
     top = 100
-    width = 76
+    width = 66
     height = 800
 
     screenshot = capture_screen_area(left, top, width, height)
