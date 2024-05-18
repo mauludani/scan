@@ -2,6 +2,8 @@ import pyautogui
 import requests
 import time
 import sys
+import cv2
+import numpy as np
 from pytesseract import pytesseract
 from PIL import Image, ImageOps
 from io import BytesIO
@@ -19,6 +21,19 @@ def main(index, coin: str):
 
     screenshot = capture_screen_area(left, top, width, height)
     # screenshot.show()  # Tampilkan tangkapan layar dalam jendela pop-up
+    img_h, img_w = screenshot.size
+
+    screenshot_np = np.array(screenshot)
+
+    # Define the new size
+    new_size = (img_h * 3, img_w * 3)
+
+    # Resize the image using OpenCV
+    upscaled_img_np = cv2.resize(screenshot_np, new_size, interpolation=cv2.INTER_CUBIC)
+
+    # Convert the upscaled image (NumPy array) back to a PIL Image
+    upscaled_img = Image.fromarray(upscaled_img_np)
+    screenshot = upscaled_img
 
     # Convert screenshot to bytes
     buffer = BytesIO()
@@ -61,4 +76,4 @@ if __name__ == "__main__":
     while True:
         index = index + 1
         main(index, coin= sys.argv[1])
-        time.sleep(2)
+        time.sleep(10)

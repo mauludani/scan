@@ -1,6 +1,8 @@
 import pyautogui
 import requests
 import time
+import cv2
+import numpy as np
 from PIL import Image, ImageOps
 from io import BytesIO
 
@@ -16,36 +18,23 @@ def main(index):
     height = 800
 
     screenshot = capture_screen_area(left, top, width, height)
-    screenshot.show()  # Tampilkan tangkapan layar dalam jendela pop-up
+    img_h, img_w = screenshot.size
 
-    # Convert screenshot to bytes
-    # buffer = BytesIO()
-    # if screenshot.mode != 'RGB':
-    #     screenshot = screenshot.convert('RGB')
+    screenshot_np = np.array(screenshot)
 
-    # screenshot = ImageOps.invert(screenshot)
-    # screenshot.save(buffer, format="PNG")
-    # buffer.seek(0)
+    # Define the new size
+    new_size = (img_h * 3, img_w * 3)
 
-    # # Define your backend URL to upload the screenshot
-    # backend_url = "http://127.0.0.1:8000/api/upload"
+    # Resize the image using OpenCV
+    upscaled_img_np = cv2.resize(screenshot_np, new_size, interpolation=cv2.INTER_CUBIC)
 
-    # # Set up the files parameter with the screenshot
-    # files = {'file': buffer}
+    # Convert the upscaled image (NumPy array) back to a PIL Image
+    upscaled_img = Image.fromarray(upscaled_img_np)
 
-    # # Make a POST request to upload the screenshot
-    # response = requests.post(backend_url, files=files)
-
-    # # Check the response
-    # if response.status_code == 200:
-    #     print(index)
-    # else:
-    #     print("Failed to upload screenshot. Status code:", response.status_code)
+    # Display the upscaled image
+    upscaled_img.show()
+    # screenshot.show()  # Tampilkan tangkapan layar dalam jendela pop-up
 
 if __name__ == "__main__":
     index = 0
     main(index)
-    # while True:
-    #     index = index + 1
-    #     main(index)
-    #     time.sleep(5)  
